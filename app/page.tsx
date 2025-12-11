@@ -1,10 +1,9 @@
 "use client";
 
-import Spacebubble from "@/components/Spacebubble";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-// import Link from "next/link";
-import { Instagram, Linkedin, Github } from "lucide-react";
+import Link from "next/link";
+import { Instagram, Linkedin, Github, Download } from "lucide-react";
 
 export default function Home() {
   const { resolvedTheme } = useTheme();
@@ -26,23 +25,22 @@ export default function Home() {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <div className="w-full h-screen relative">
-      <Spacebubble />
+    <div className="w-full h-screen relative overflow-hidden">
       <div
-        className="absolute top-[25%] left-8 md:left-24 z-50 w-full md:max-w-4xl px-4 text-left pointer-events-none"
+        className="absolute top-[25%] left-4 right-4 md:left-24 md:right-24 z-50 w-auto md:max-w-6xl px-4 text-left pointer-events-none md:scale-[0.8] md:origin-top-left"
         style={{ color: isDark ? '#ffffff' : '#000000' }}
       >
         <span className="text-lg md:text-xl font-mono mb-2 block opacity-80" style={{ color: isDark ? '#ffffff' : '#000000' }}>
           Hi, I am
         </span>
         <h1
-          className="text-3xl sm:text-5xl md:text-7xl font-[family-name:var(--font-orbitron)] font-bold mb-6 transition-colors duration-300 drop-shadow-md whitespace-nowrap"
+          className="text-2xl sm:text-5xl md:text-7xl font-[family-name:var(--font-orbitron)] font-bold mb-6 transition-colors duration-300 drop-shadow-md whitespace-nowrap"
           style={{ color: isDark ? '#ffffff' : '#000000' }}
         >
           Mohammed Nadhil K N
         </h1>
         <p
-          className="text-lg md:text-xl font-[family-name:var(--font-orbitron)] transition-colors duration-300 max-w-3xl drop-shadow-md opacity-90 mb-10 leading-relaxed"
+          className="text-lg md:text-xl font-[family-name:var(--font-orbitron)] transition-colors duration-300 max-w-full drop-shadow-md opacity-90 mb-10 leading-relaxed text-balance"
           style={{ color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)' }}
         >
           A <span className="font-bold">self-taught full stack developer</span>. studying new things , i have experience in working as team and individual , still learning and growing
@@ -76,6 +74,32 @@ export default function Home() {
               style={{ color: isDark ? '#ffffff' : '#000000' }}
             >
               <Github size={32} />
+            </a>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link
+              href="/projects"
+              className="px-6 py-3 rounded-full font-[family-name:var(--font-orbitron)] font-bold text-sm md:text-base border transition-all duration-300 hover:scale-105 hover:bg-opacity-20 flex items-center justify-center"
+              style={{
+                borderColor: isDark ? '#ffffff' : '#000000',
+                color: isDark ? '#ffffff' : '#000000',
+                background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+              }}
+            >
+              See My Projects
+            </Link>
+            <a
+              href="/resume.pdf"
+              download="resume.pdf"
+              className="px-6 py-3 rounded-full font-[family-name:var(--font-orbitron)] font-bold text-sm md:text-base border transition-all duration-300 hover:scale-105 hover:bg-opacity-20 flex items-center justify-center gap-2"
+              style={{
+                borderColor: isDark ? '#ffffff' : '#000000',
+                color: isDark ? '#ffffff' : '#000000',
+                background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+              }}
+            >
+              <Download size={18} />
+              Resume
             </a>
           </div>
         </div>

@@ -3,7 +3,15 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Particles from "../ui/Newone";
 
-function Spacebubble() {
+interface SpacebubbleProps {
+  isMotionEnabled?: boolean;
+  isMouseInteractionEnabled?: boolean;
+}
+
+function Spacebubble({
+  isMotionEnabled = true,
+  isMouseInteractionEnabled = true
+}: SpacebubbleProps) {
   const { theme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -30,9 +38,9 @@ function Spacebubble() {
         particleColors={isDark ? ["#ffffff", "#ffffff"] : ["#000000", "#000000"]}
         particleCount={200}
         particleSpread={10}
-        speed={0.1}
+        speed={isMotionEnabled ? 0.1 : 0}
         particleBaseSize={100}
-        moveParticlesOnHover={true}
+        moveParticlesOnHover={isMouseInteractionEnabled}
         alphaParticles={false}
         disableRotation={false}
       />

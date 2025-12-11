@@ -119,6 +119,18 @@ const Particles: React.FC<ParticlesProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
+  // Refs to hold latest prop values
+  const speedRef = useRef(speed);
+  const moveParticlesOnHoverRef = useRef(moveParticlesOnHover);
+  const disableRotationRef = useRef(disableRotation);
+
+  // Update refs when props change
+  useEffect(() => {
+    speedRef.current = speed;
+    moveParticlesOnHoverRef.current = moveParticlesOnHover;
+    disableRotationRef.current = disableRotation;
+  }, [speed, moveParticlesOnHover, disableRotation]);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -147,9 +159,8 @@ const Particles: React.FC<ParticlesProps> = ({
       mouseRef.current = { x, y };
     };
 
-    if (moveParticlesOnHover) {
-      container.addEventListener('mousemove', handleMouseMove);
-    }
+    // Always listen to mouse move, control logic inside update
+    window.addEventListener('mousemove', handleMouseMove);
 
     const count = particleCount;
     const positions = new Float32Array(count * 3);
@@ -202,22 +213,26 @@ const Particles: React.FC<ParticlesProps> = ({
       animationFrameId = requestAnimationFrame(update);
       const delta = t - lastTime;
       lastTime = t;
-      elapsed += delta * speed;
+
+      // Use ref for speed to allow pausing without re-init
+      elapsed += delta * speedRef.current; // This supports speed=0 for pause
 
       program.uniforms.uTime.value = elapsed * 0.001;
 
-      if (moveParticlesOnHover) {
+      // Use ref for interaction toggle
+      if (moveParticlesOnHoverRef.current) {
         particles.position.x = -mouseRef.current.x * particleHoverFactor;
         particles.position.y = -mouseRef.current.y * particleHoverFactor;
       } else {
+        // Optional: Smoothly return to center or just snap. Snapping is simpler for now.
         particles.position.x = 0;
         particles.position.y = 0;
       }
 
-      if (!disableRotation) {
+      if (!disableRotationRef.current) {
         particles.rotation.x = Math.sin(elapsed * 0.0002) * 0.1;
         particles.rotation.y = Math.cos(elapsed * 0.0005) * 0.15;
-        particles.rotation.z += 0.01 * speed;
+        particles.rotation.z += 0.01 * speedRef.current;
       }
 
       renderer.render({ scene: particles, camera });
@@ -227,9 +242,7 @@ const Particles: React.FC<ParticlesProps> = ({
 
     return () => {
       window.removeEventListener('resize', resize);
-      if (moveParticlesOnHover) {
-        container.removeEventListener('mousemove', handleMouseMove);
-      }
+      window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
       if (container.contains(gl.canvas)) {
         container.removeChild(gl.canvas);
@@ -237,16 +250,18 @@ const Particles: React.FC<ParticlesProps> = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    // Removed speed, moveParticlesOnHover, disableRotation from dep array to prevent re-init
     particleCount,
     particleSpread,
-    speed,
-    moveParticlesOnHover,
+    // speed, // Handled by ref
+    particleColors,
+    // moveParticlesOnHover, // Handled by ref
     particleHoverFactor,
     alphaParticles,
     particleBaseSize,
     sizeRandomness,
     cameraDistance,
-    disableRotation,
+    // disableRotation, // Handled by ref
     pixelRatio
   ]);
 
