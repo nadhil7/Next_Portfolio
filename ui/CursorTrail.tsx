@@ -37,7 +37,7 @@ export default function CursorTrail() {
                 // Instantly snap on first move to avoid flying in from 0,0
                 hasMoved.current = true;
                 cursor.current = { x: e.clientX, y: e.clientY };
-                for (let i = 0; i < 20; i++) { // Pre-fill trail
+                for (let i = 0; i < 50; i++) { // Pre-fill trail (Longer tail)
                     trail.current.push({ x: e.clientX, y: e.clientY });
                 }
             }
@@ -52,13 +52,10 @@ export default function CursorTrail() {
             if (!canvas || !ctx) return;
 
             // 1. Smoothly interpolate cursor towards mouse (LERP)
-            // Factor 0.15 = snappy but smooth. 0.05 = very lazy.
             cursor.current.x = lerp(cursor.current.x, mouse.current.x, 0.2);
             cursor.current.y = lerp(cursor.current.y, mouse.current.y, 0.2);
 
             // 2. Add current status of cursor to trail
-            // Only add if we have moved? Or always add to keep the "stream" flowing?
-            // For a ribbon that follows, we usually cycle the array:
             trail.current.shift(); // Remove oldest
             trail.current.push({ x: cursor.current.x, y: cursor.current.y }); // Add newest
 

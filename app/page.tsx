@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div className="w-full h-screen relative overflow-hidden">
       <div
-        className="absolute top-[25%] left-4 right-4 md:left-24 md:right-24 z-50 w-auto md:max-w-6xl px-4 text-left pointer-events-none md:scale-[0.8] md:origin-top-left"
+        className="absolute top-[25%] left-4 right-4 md:left-24 md:right-24 z-50 w-auto md:max-w-6xl px-4 text-left pointer-events-none md:scale-[0.8] md:origin-top"
         style={{ color: isDark ? '#ffffff' : '#000000' }}
       >
         <span className="text-lg md:text-xl font-mono mb-2 block opacity-80" style={{ color: isDark ? '#ffffff' : '#000000' }}>

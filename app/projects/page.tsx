@@ -68,7 +68,7 @@ export default function Projects() {
     return (
         <div className="w-full min-h-screen relative overflow-x-hidden">
             <div className="absolute top-0 left-0 w-full h-full z-40 overflow-y-auto custom-scrollbar">
-                <div className="max-w-6xl mx-auto px-4 py-8 md:py-16">
+                <div className="max-w-6xl mx-auto px-4 py-8 md:py-16 md:scale-[0.8] md:origin-top">
                     <Link href="/" className="inline-flex items-center gap-2 mb-8 transition-colors duration-300 hover:opacity-70" style={{ color: isDark ? '#ffffff' : '#000000' }}>
                         <ArrowLeft size={24} />
                         <span className="text-lg font-mono">Back to Home</span>
