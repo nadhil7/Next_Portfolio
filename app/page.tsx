@@ -86,7 +86,7 @@ export default function Home() {
                 background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
               }}
             >
-              See My Projects
+              See My Works
             </Link>
             <a
               href="/resume.pdf"
