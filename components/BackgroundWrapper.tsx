@@ -8,7 +8,9 @@ import { MousePointer2, PauseCircle, PlayCircle, MousePointerClick } from "lucid
 export default function BackgroundWrapper() {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
-    const [isMotionEnabled, setIsMotionEnabled] = useState(true);
+    const [isMotionEnabled, setIsMotionEnabled] = useState(() =>
+        typeof window === "undefined" || !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
     const [isMouseInteractionEnabled, setIsMouseInteractionEnabled] = useState(true);
 
     useEffect(() => {
@@ -26,7 +28,7 @@ export default function BackgroundWrapper() {
                     isMotionEnabled={isMotionEnabled}
                     isMouseInteractionEnabled={isMouseInteractionEnabled}
                 />
-                <CursorTrail />
+                <CursorTrail enabled={isMotionEnabled} />
             </div>
 
             {/* Controls */}

@@ -8,7 +8,7 @@ interface Point {
     y: number;
 }
 
-export default function CursorTrail() {
+export default function CursorTrail({ enabled = true }: { enabled?: boolean }) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const { resolvedTheme } = useTheme();
 
@@ -19,6 +19,7 @@ export default function CursorTrail() {
     const hasMoved = useRef(false);
 
     useEffect(() => {
+        if (!enabled) return;
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
@@ -120,7 +121,9 @@ export default function CursorTrail() {
             window.removeEventListener("mousemove", handleMouseMove);
             cancelAnimationFrame(rafId);
         };
-    }, [resolvedTheme]);
+    }, [resolvedTheme, enabled]);
+
+    if (!enabled) return null;
 
     return (
         <canvas
