@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Orbitron } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import BackgroundWrapper from "@/components/BackgroundWrapper";
+import SiteHeader from "@/components/SiteHeader";
 import { siteUrl } from "@/lib/portfolio";
 
 const geistSans = Geist({
@@ -13,11 +12,6 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
   subsets: ["latin"],
 });
 
@@ -52,28 +46,25 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          storageKey="nadhil-theme"
         >
-          <div className="fixed top-4 right-4 z-50">
-            <ThemeToggle />
-          </div>
-          <BackgroundWrapper />
-          <div className="relative z-10">
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                { "@type": "Person", name: "Mohammed Nadhil K N", url: siteUrl, jobTitle: "Full-Stack Developer", sameAs: ["https://www.linkedin.com/in/mohammed-nadhil-k-n/", "https://github.com/nadhil7", "https://www.instagram.com/nadhilkn_/"] },
-                { "@type": "WebSite", name: "Mohammed Nadhil K N Portfolio", url: siteUrl, description: "Portfolio of Mohammed Nadhil K N, Full-Stack Developer and Software Developer." },
-              ],
-            }) }} />
-            {children}
-          </div>
+          <a className="skip-link" href="#main-content">Skip to content</a>
+          <SiteHeader />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              { "@type": "Person", name: "Mohammed Nadhil K N", url: siteUrl, jobTitle: "Full-Stack Developer", sameAs: ["https://www.linkedin.com/in/mohammed-nadhil-k-n/", "https://github.com/nadhil7", "https://www.instagram.com/nadhilkn_/"] },
+              { "@type": "WebSite", name: "Mohammed Nadhil K N Portfolio", url: siteUrl, description: "Portfolio of Mohammed Nadhil K N, Full-Stack Developer and Software Developer." },
+            ],
+          }) }} />
+          {children}
         </ThemeProvider>
       </body>
     </html>
